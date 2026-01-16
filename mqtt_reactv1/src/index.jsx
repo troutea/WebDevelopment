@@ -1,26 +1,10 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import App from "./components/App";
 
- 
 
 const container = document.getElementById('root');
 const root = createRoot(container); // Create a root.
 
-const name = "Anthony";
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-
-root.render(
-   
-  <div>
-    <h1>Temperature Sensor with MQTT</h1>
-    <h2>Reading the temperature from a remote location</h2>
-
-    <p>The Webpage is designed to read the temperature from a remote BMP280 Temperature Sensor
-       using MQTT protocol
-    </p>
-    <p>Created by {name}</p>
-    <p>Copyright {year}</p>
-  </div>
-);
+root.render(<App />, document.getElementById("root"));
