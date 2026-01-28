@@ -1,0 +1,14 @@
+import React from "react"
+
+function Note() {
+    return <note>
+        
+        <h1>Temperature Sensor with MQTT</h1>
+        <h2>Reading the temperature from a remote location</h2>
+        <p>The Webpage is designed to read the temperature from a remote BMP280 Temperature Sensor
+            using MQTT protocol
+        </p>
+    </note>
+}
+
+export default Note;
