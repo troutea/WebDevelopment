@@ -1,113 +1,185 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: Arial, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-    min-height: 100vh;
+  background: #f4f6f8;
+}
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.app {
+  min-height: 100vh;
 
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  display: flex;
 
-    padding: 20px;
+  justify-content: center;
+
+  padding: 30px 15px;
 }
 
 .container {
-    width: 100%;
-    max-width: 500px;
-}
+  width: 100%;
 
-.card {
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.15);
-
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
+  max-width: 600px;
 }
 
 
-/* Total Calories */
+/* Header */
 
-.total-section {
+header {
+  text-align: center;
 
-    background: #f1f5f9;
-
-    padding: 25px;
-
-    border-radius: 15px;
-
-    margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
-.total-section p {
-    color: #555;
-    margin-bottom: 10px;
+header h1 {
+  font-size: 36px;
+
+  margin-bottom: 8px;
 }
 
-.total-section h2 {
-
-    font-size: 50px;
-
-    color: #2563eb;
-}
-
-.total-section span {
-    color: #777;
+header p {
+  color: #777;
 }
 
 
-/* Input Section */
+/* Cards */
 
-.input-section {
+.target-card,
+.add-card,
+.entries-card,
+.overview,
+.progress-section {
 
-    display: flex;
+  background: white;
 
-    flex-direction: column;
+  border-radius: 15px;
 
-    text-align: left;
+  padding: 20px;
 
-    gap: 10px;
+  margin-bottom: 20px;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0, 0, 0, 0.08);
 }
 
-label {
-    font-weight: bold;
+
+/* Target */
+
+.target-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
 }
 
-input {
+.target-card input {
 
-    padding: 14px;
+  padding: 12px;
 
-    font-size: 18px;
+  border: 1px solid #ddd;
 
-    border: 2px solid #ddd;
+  border-radius: 8px;
 
-    border-radius: 10px;
-
-    outline: none;
+  font-size: 16px;
 }
 
-input:focus {
-    border-color: #2563eb;
+
+/* Overview */
+
+.overview {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+
+  text-align: center;
+}
+
+.overview h2 {
+
+  font-size: 32px;
+
+  margin-top: 8px;
+}
+
+.calorie-total h2 {
+  color: #2563eb;
+}
+
+.remaining h2 {
+  color: #16a34a;
+}
+
+
+/* Progress */
+
+.progress-info {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+
+  width: 100%;
+
+  height: 15px;
+
+  background: #e5e7eb;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+
+  height: 100%;
+
+  background: #2563eb;
+
+  border-radius: 20px;
+
+  transition: width 0.4s ease;
+}
+
+
+/* Add Card */
+
+.add-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.add-card input,
+.add-card select {
+
+  padding: 14px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  font-size: 16px;
 }
 
 
@@ -115,120 +187,118 @@ input:focus {
 
 button {
 
-    padding: 14px;
+  border: none;
 
-    border: none;
+  border-radius: 8px;
 
-    border-radius: 10px;
+  padding: 13px;
 
-    font-size: 16px;
+  font-size: 16px;
 
-    font-weight: bold;
+  font-weight: bold;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    transition: 0.2s;
+  transition: 0.2s;
 }
 
-#addButton {
+.add-button {
 
-    background: #2563eb;
+  background: #2563eb;
 
-    color: white;
+  color: white;
 }
 
-#addButton:hover {
+.add-button:hover {
 
-    background: #1d4ed8;
-
-    transform: translateY(-2px);
+  background: #1d4ed8;
 }
 
 
-/* History */
+/* Entries */
 
-.history-section {
+.entries-card h3 {
 
-    margin-top: 30px;
-
-    text-align: left;
+  margin-bottom: 15px;
 }
 
-.history-section h3 {
+.entries-list {
 
-    margin-bottom: 15px;
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
 }
 
-ul {
+.entry {
 
-    list-style: none;
+  display: flex;
 
-    max-height: 200px;
+  justify-content: space-between;
 
-    overflow-y: auto;
+  align-items: center;
+
+  background: #f8fafc;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  border-left: 4px solid #2563eb;
 }
 
-li {
+.entry p {
 
-    padding: 12px;
+  margin-top: 5px;
 
-    margin-bottom: 8px;
-
-    background: #f8fafc;
-
-    border-radius: 8px;
-
-    border-left: 4px solid #2563eb;
+  color: #666;
 }
+
+
+/* Delete */
+
+.delete-button {
+
+  background: #fee2e2;
+
+  color: #dc2626;
+
+  padding: 8px 12px;
+}
+
+.delete-button:hover {
+
+  background: #fecaca;
+}
+
+
+/* Empty */
 
 .empty-message {
 
-    color: #888;
+  text-align: center;
 
-    text-align: center;
+  color: #888;
 
-    border-left: none;
+  padding: 20px;
 }
 
 
-/* Bottom Buttons */
+/* Reset */
 
-.button-section {
+.reset-button {
 
-    display: flex;
+  width: 100%;
 
-    gap: 10px;
+  background: #ef4444;
 
-    margin-top: 25px;
+  color: white;
 }
 
-.button-section button {
+.reset-button:hover {
 
-    flex: 1;
-}
-
-.secondary-button {
-
-    background: #e5e7eb;
-
-    color: #333;
-}
-
-.secondary-button:hover {
-
-    background: #d1d5db;
-}
-
-.danger-button {
-
-    background: #ef4444;
-
-    color: white;
-}
-
-.danger-button:hover {
-
-    background: #dc2626;
+  background: #dc2626;
 }
 
 
@@ -236,14 +306,14 @@ li {
 
 @media (max-width: 500px) {
 
-    .card {
+  header h1 {
 
-        padding: 25px 20px;
-    }
+    font-size: 30px;
+  }
 
-    .total-section h2 {
+  .overview {
 
-        font-size: 40px;
-    }
+    grid-template-columns: 1fr;
+  }
 
 }
