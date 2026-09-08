@@ -1,14 +1,7 @@
-// function App() {
-//   return (
-//     <div className="App">
-//       <h1>Hello World!</h1>
-//     </div>
-//   );
-// }
 
-// export default App;
 
 //import React from "react";
+//not needed since React 17+
 import Card from "./Card";
 import contacts from "../contacts";
 
