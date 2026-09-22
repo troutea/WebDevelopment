@@ -72,6 +72,7 @@ h1::after {
 #generate-btn:active {
     transform: translateY(0);
 }
+<<<<<<< HEAD
 
 
 .palette-container {
@@ -126,3 +127,5 @@ h1::after {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 }
+=======
+>>>>>>> platesense

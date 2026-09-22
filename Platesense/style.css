@@ -5,6 +5,7 @@
 }
 
 body {
+<<<<<<< HEAD
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f6f8;
   color: #222;
@@ -25,6 +26,16 @@ button {
    APP
 ============================ */
 
+=======
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background: #f4f6f8;
+}
+
+>>>>>>> platesense
 .app {
   min-height: 100vh;
 
@@ -37,6 +48,7 @@ button {
 
 .container {
   width: 100%;
+<<<<<<< HEAD
   max-width: 650px;
 }
 
@@ -139,22 +151,60 @@ button {
 /* ============================
    CARDS
 ============================ */
+=======
+
+  max-width: 600px;
+}
+
+
+/* Header */
+
+header {
+  text-align: center;
+
+  margin-bottom: 25px;
+}
+
+header h1 {
+  font-size: 36px;
+
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #777;
+}
+
+
+/* Cards */
+>>>>>>> platesense
 
 .target-card,
 .add-card,
 .entries-card,
 .overview,
 .progress-section {
+<<<<<<< HEAD
   background: white;
 
   padding: 20px;
 
   border-radius: 15px;
 
+=======
+
+  background: white;
+
+  border-radius: 15px;
+
+  padding: 20px;
+
+>>>>>>> platesense
   margin-bottom: 20px;
 
   box-shadow:
     0 5px 15px
+<<<<<<< HEAD
     rgba(0, 0, 0, 0.07);
 }
 
@@ -164,6 +214,16 @@ button {
 ============================ */
 
 .target-card {
+=======
+    rgba(0, 0, 0, 0.08);
+}
+
+
+/* Target */
+
+.target-card {
+
+>>>>>>> platesense
   display: flex;
 
   flex-direction: column;
@@ -171,16 +231,23 @@ button {
   gap: 10px;
 }
 
+<<<<<<< HEAD
 .target-card input,
 .add-card input,
 .add-card select {
   padding: 13px;
+=======
+.target-card input {
+
+  padding: 12px;
+>>>>>>> platesense
 
   border: 1px solid #ddd;
 
   border-radius: 8px;
 
   font-size: 16px;
+<<<<<<< HEAD
 
   width: 100%;
 }
@@ -205,10 +272,32 @@ button {
   font-size: 34px;
 
   color: #2563eb;
+=======
+}
+
+
+/* Overview */
+
+.overview {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+
+  text-align: center;
+}
+
+.overview h2 {
+
+  font-size: 32px;
+>>>>>>> platesense
 
   margin-top: 8px;
 }
 
+<<<<<<< HEAD
 .overview p {
   color: #666;
 }
@@ -219,6 +308,21 @@ button {
 ============================ */
 
 .progress-info {
+=======
+.calorie-total h2 {
+  color: #2563eb;
+}
+
+.remaining h2 {
+  color: #16a34a;
+}
+
+
+/* Progress */
+
+.progress-info {
+
+>>>>>>> platesense
   display: flex;
 
   justify-content: space-between;
@@ -227,6 +331,12 @@ button {
 }
 
 .progress-bar {
+<<<<<<< HEAD
+=======
+
+  width: 100%;
+
+>>>>>>> platesense
   height: 15px;
 
   background: #e5e7eb;
@@ -237,10 +347,15 @@ button {
 }
 
 .progress-fill {
+<<<<<<< HEAD
+=======
+
+>>>>>>> platesense
   height: 100%;
 
   background: #2563eb;
 
+<<<<<<< HEAD
   transition:
     width 0.4s ease;
 }
@@ -251,6 +366,18 @@ button {
 ============================ */
 
 .add-card {
+=======
+  border-radius: 20px;
+
+  transition: width 0.4s ease;
+}
+
+
+/* Add Card */
+
+.add-card {
+
+>>>>>>> platesense
   display: flex;
 
   flex-direction: column;
@@ -258,29 +385,72 @@ button {
   gap: 12px;
 }
 
+<<<<<<< HEAD
 .primary-button {
   width: 100%;
 
   padding: 14px;
 
+=======
+.add-card input,
+.add-card select {
+
+  padding: 14px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+}
+
+
+/* Buttons */
+
+button {
+
+>>>>>>> platesense
   border: none;
 
   border-radius: 8px;
 
+<<<<<<< HEAD
   background: #2563eb;
 
   color: white;
+=======
+  padding: 13px;
+>>>>>>> platesense
 
   font-size: 16px;
 
   font-weight: bold;
+<<<<<<< HEAD
 }
 
 .primary-button:hover {
+=======
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.add-button {
+
+  background: #2563eb;
+
+  color: white;
+}
+
+.add-button:hover {
+
+>>>>>>> platesense
   background: #1d4ed8;
 }
 
 
+<<<<<<< HEAD
 /* ============================
    ENTRIES
 ============================ */
@@ -290,12 +460,33 @@ button {
 }
 
 .entry {
+=======
+/* Entries */
+
+.entries-card h3 {
+
+  margin-bottom: 15px;
+}
+
+.entries-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.entry {
+
+>>>>>>> platesense
   display: flex;
 
   justify-content: space-between;
 
   align-items: center;
 
+<<<<<<< HEAD
   padding: 15px;
 
   margin-bottom: 10px;
@@ -323,10 +514,34 @@ button {
 }
 
 .delete-button {
+=======
+  background: #f8fafc;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  border-left: 4px solid #2563eb;
+}
+
+.entry p {
+
+  margin-top: 5px;
+
+  color: #666;
+}
+
+
+/* Delete */
+
+.delete-button {
+
+>>>>>>> platesense
   background: #fee2e2;
 
   color: #dc2626;
 
+<<<<<<< HEAD
   border: none;
 
   padding: 8px 10px;
@@ -335,10 +550,18 @@ button {
 }
 
 .delete-button:hover {
+=======
+  padding: 8px 12px;
+}
+
+.delete-button:hover {
+
+>>>>>>> platesense
   background: #fecaca;
 }
 
 
+<<<<<<< HEAD
 /* ============================
    LOGOUT
 ============================ */
@@ -396,6 +619,12 @@ button {
 }
 
 .empty-message {
+=======
+/* Empty */
+
+.empty-message {
+
+>>>>>>> platesense
   text-align: center;
 
   color: #888;
@@ -404,6 +633,7 @@ button {
 }
 
 
+<<<<<<< HEAD
 /* ============================
    MOBILE
 ============================ */
@@ -419,6 +649,36 @@ button {
   }
 
   .overview {
+=======
+/* Reset */
+
+.reset-button {
+
+  width: 100%;
+
+  background: #ef4444;
+
+  color: white;
+}
+
+.reset-button:hover {
+
+  background: #dc2626;
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+  header h1 {
+
+    font-size: 30px;
+  }
+
+  .overview {
+
+>>>>>>> platesense
     grid-template-columns: 1fr;
   }
 
