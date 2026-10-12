@@ -10,6 +10,7 @@ paletteContainer.addEventListener("click", function (e) {
 
     navigator.clipboard
       .writeText(hexValue)
+      
       .then(() => showCopySuccess(e.target))
       .catch((err) => console.log(err));
   } else if (e.target.classList.contains("color")) {
