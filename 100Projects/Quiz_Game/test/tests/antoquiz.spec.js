@@ -37,6 +37,7 @@ test.only('Start Quiz shows question 1 with the right initial state', async ({br
     await expect (page.locator('button:has-text("Paris")'));
     await expect (page.locator('button:has-text("Berlin")'));
     await expect (page.locator('button:has-text("London")'));
+    await expect (page.locator(':text-is("1")'));
     
     //this is where i left off just checking the Madrid text
 
