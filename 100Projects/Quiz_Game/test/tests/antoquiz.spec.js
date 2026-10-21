@@ -29,7 +29,7 @@ await expect(page.locator('#total-questions')).toHaveText('5');
 //await page.pause();
 });
 
-test.only('Start Quiz shows question 1 with the right initial state', async ({browser, page }) => {
+test('Start Quiz shows question 1 with the right initial state', async ({browser, page }) => {
     await page.locator('#start-btn').click();
     await page.pause();
     
@@ -38,7 +38,29 @@ test.only('Start Quiz shows question 1 with the right initial state', async ({br
     await expect (page.locator('button:has-text("Berlin")'));
     await expect (page.locator('button:has-text("London")'));
     await expect (page.locator(':text-is("1")'));
+    await expect (page.locator('p:has-text("Question 1 of 5")')); 
+    await expect (page.locator('p:has-text("Score: 0")')); 
     
     //this is where i left off just checking the Madrid text
 
     });
+
+
+    test.only('Select the first question test with negative tests', async ({browser, page }) => {
+    await page.locator('#start-btn').click();
+    await page.getByRole('button', { name: 'Madrid' }).click();
+    await page.pause();
+    await expect (page.locator('p:has-text("Question 2 of 5")')); 
+    
+    // await expect (page.locator('button:has-text("Madrid")'));
+    // await expect (page.locator('button:has-text("Paris")'));
+    // await expect (page.locator('button:has-text("Berlin")'));
+    // await expect (page.locator('button:has-text("London")'));
+    // await expect (page.locator(':text-is("1")'));
+    // await expect (page.locator('p:has-text("Question 1 of 5")')); 
+    // await expect (page.locator('p:has-text("Score: 0")')); 
+    
+    //this is where i left off just checking the Madrid text
+
+    });
+
