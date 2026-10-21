@@ -74,9 +74,13 @@ function App() {
       setError("");
 
       const data = await apiRequest("/users/me");
+      console.log("Backend response from /users/me:", data); // 👈 ADD THIS
 
-      setUser(data.user);
-      setDailyTarget(data.user.dailyCalorieTarget || 2000);
+      const currentUser = data.user || data; // Handles both direct and nested formats
+
+      setUser(currentUser);
+      setDailyTarget(currentUser.dailyCalorieTarget || 2000);
+      
 
       await loadEntries();
     } catch (err) {
@@ -94,17 +98,35 @@ function App() {
   // --------------------------------------------------
   // Load today's calorie entries
   // --------------------------------------------------
+async function loadEntries() {
+  try {
+    const data = await apiRequest("/calories/today");
+    console.log("Backend response from /calories/today:", data);
 
-  async function loadEntries() {
-    try {
-      const data = await apiRequest("/calories/today");
+    // If the backend returned the array directly: use data
+    // If it returned { entries: [...] }: use data.entries
+    const meals = Array.isArray(data)
+      ? data
+      : Array.isArray(data?.entries)
+      ? data.entries
+      : [];
 
-      setEntries(data.entries || []);
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    }
+    setEntries(meals);
+  } catch (err) {
+    console.error(err);
+    setError(err.message);
   }
+}
+  // async function loadEntries() {
+  //   try {
+  //     const data = await apiRequest("/calories/today");
+
+  //     setEntries(data.entries || []);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError(err.message);
+  //   }
+  // }
 
   // --------------------------------------------------
   // Register
@@ -167,6 +189,10 @@ function App() {
   // --------------------------------------------------
 
   async function login(e) {
+    // eslint-disable-next-line no-debugger
+   debugger;
+
+
     e.preventDefault();
 
     setError("");
