@@ -52,13 +52,13 @@ test('Start Quiz shows question 1 with the right initial state', async ({browser
     await page.pause();
     await expect (page.locator('p:has-text("Question 2 of 5")')); 
     
-    // await expect (page.locator('button:has-text("Madrid")'));
-    // await expect (page.locator('button:has-text("Paris")'));
-    // await expect (page.locator('button:has-text("Berlin")'));
-    // await expect (page.locator('button:has-text("London")'));
-    // await expect (page.locator(':text-is("1")'));
-    // await expect (page.locator('p:has-text("Question 1 of 5")')); 
-    // await expect (page.locator('p:has-text("Score: 0")')); 
+     await expect (page.locator('button:has-text("Venus")'));
+     await expect (page.locator('button:has-text("Mars")'));
+     await expect (page.locator('button:has-text("blah")'));
+     await expect (page.locator('button:has-text("Saturn")'));
+     await expect (page.locator(':text-is("2")'));
+     await expect (page.locator('p:has-text("Question 2 of 5")')); 
+     await expect (page.locator('p:has-text("Score: 0")')); 
     
     //this is where i left off just checking the Madrid text
 
