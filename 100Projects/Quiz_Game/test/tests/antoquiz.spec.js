@@ -50,15 +50,18 @@ test('Start Quiz shows question 1 with the right initial state', async ({browser
     await page.locator('#start-btn').click();
     await page.getByRole('button', { name: 'Madrid' }).click();
     await page.pause();
-    await expect (page.locator('p:has-text("Question 2 of 5")')); 
+    //expect (page.locator('p:has-text("Question 3 of 5")')).toBeVisible; 
+    //await expect(page.locator('p')).toHaveText('Question 2 of 5');
+    await page.pause();
+
     
-     await expect (page.locator('button:has-text("Venus")'));
-     await expect (page.locator('button:has-text("Mars")'));
-     await expect (page.locator('button:has-text("blah")'));
-     await expect (page.locator('button:has-text("Saturn")'));
-     await expect (page.locator(':text-is("2")'));
-     await expect (page.locator('p:has-text("Question 2 of 5")')); 
-     await expect (page.locator('p:has-text("Score: 0")')); 
+     await expect (page.locator('button:has-text("Venus")')).toContainText("Venus");
+     await expect (page.locator('button:has-text("Mars")')).toContainText("Mars");
+     await expect (page.locator('button:has-text("Jupiter")')).toContainText("Jupiter");
+     await expect (page.locator('button:has-text("Saturn")')).toContainText("Saturn");
+     await expect (page.locator(':text-is("2")')).toContainText('2');
+     await expect (page.locator('p:has-text("Question 2 of 5")')).toContainText("Question 2 of 5"); 
+     await expect (page.locator('p:has-text("Score: 0")')).toContainText("Score: 0"); 
     
     //this is where i left off just checking the Madrid text
 
