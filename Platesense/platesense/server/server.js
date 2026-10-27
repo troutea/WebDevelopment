@@ -32,6 +32,9 @@ const authRoutes =
 const calorieRoutes =
   require("./routes/calories");
 
+const garminRoutes =
+  require("./routes/garmin");
+
 const userRoutes =
   require("./routes/users");
 
@@ -49,6 +52,11 @@ app.use(
 app.use(
   "/api/users",
   userRoutes
+);
+
+app.use(
+  "/api/garmin",
+  garminRoutes
 );
 
 

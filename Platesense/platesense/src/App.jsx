@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "C:/Local/WebDevelopment/Platesense/style.css";
+import GarminCard from "./components/GarminCard";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -717,6 +718,12 @@ function App() {
           </div>
 
         </div>
+
+        {/* Garmin Watch Integration */}
+        <GarminCard
+          apiRequest={apiRequest}
+          totalCaloriesEaten={totalCalories}
+        />
 
         {/* View Calories by Day Dropdown */}
 
