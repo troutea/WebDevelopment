@@ -3,6 +3,14 @@ import "C:/Local/WebDevelopment/Platesense/style.css";
 
 const API_URL = "http://localhost:5000/api";
 
+function formatLocalDate(dateInput) {
+  const d = new Date(dateInput);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function App() {
   const [token, setToken] = useState(
     () => localStorage.getItem("platesenseToken") || ""
@@ -11,6 +19,10 @@ function App() {
   const [user, setUser] = useState(null);
   const [entries, setEntries] = useState([]);
   const [weeklyEntries, setWeeklyEntries] = useState([]);
+
+  const [selectedDate, setSelectedDate] = useState(() =>
+    formatLocalDate(new Date())
+  );
 
   const [page, setPage] = useState("login");
 
@@ -411,6 +423,35 @@ function App() {
       ? Math.min((totalCalories / dailyTarget) * 100, 100)
       : 0;
 
+  // Generate list of the past 7 days for the dropdown
+  const pastDays = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateKey = formatLocalDate(d);
+
+    const formattedDate = d.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+
+    let label = formattedDate;
+    if (i === 0) label = `Today (${formattedDate})`;
+    else if (i === 1) label = `Yesterday (${formattedDate})`;
+
+    return { dateKey, label };
+  });
+
+  // Calculate total calories grouped by date (YYYY-MM-DD)
+  const dailyCaloriesMap = weeklyEntries.reduce((map, entry) => {
+    const key = formatLocalDate(entry.date || entry.createdAt || new Date());
+    map[key] = (map[key] || 0) + Number(entry.calories || 0);
+    return map;
+  }, {});
+
+  const selectedDayCalories = dailyCaloriesMap[selectedDate] || 0;
+  const selectedDayRemaining = dailyTarget - selectedDayCalories;
+
   // --------------------------------------------------
   // Login / Register screen
   // --------------------------------------------------
@@ -673,6 +714,79 @@ function App() {
               }}
             />
 
+          </div>
+
+        </div>
+
+        {/* View Calories by Day Dropdown */}
+
+        <div className="target-card">
+
+          <label>
+            View Calories by Day
+          </label>
+
+          <select
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            style={{
+              padding: "12px",
+              borderRadius: "8px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              backgroundColor: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            {pastDays.map((day) => {
+              const caloriesForDay = dailyCaloriesMap[day.dateKey] || 0;
+              return (
+                <option key={day.dateKey} value={day.dateKey}>
+                  {day.label} — {caloriesForDay} cal
+                </option>
+              );
+            })}
+          </select>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "12px 14px",
+              backgroundColor: "#f8fafc",
+              borderRadius: "8px",
+              marginTop: "4px",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
+                {pastDays.find((d) => d.dateKey === selectedDate)?.label || selectedDate}
+              </p>
+              <h3 style={{ margin: "4px 0 0", color: "#2563eb", fontSize: "22px" }}>
+                {selectedDayCalories}{" "}
+                <span style={{ fontSize: "14px", color: "#64748b", fontWeight: "normal" }}>
+                  / {dailyTarget} cal target
+                </span>
+              </h3>
+            </div>
+
+            <span
+              style={{
+                padding: "6px 12px",
+                borderRadius: "20px",
+                fontSize: "13px",
+                fontWeight: "bold",
+                backgroundColor:
+                  selectedDayCalories > dailyTarget ? "#fee2e2" : "#dcfce7",
+                color:
+                  selectedDayCalories > dailyTarget ? "#dc2626" : "#16a34a",
+              }}
+            >
+              {selectedDayCalories > dailyTarget
+                ? `+${selectedDayCalories - dailyTarget} over`
+                : `${selectedDayRemaining} left`}
+            </span>
           </div>
 
         </div>
