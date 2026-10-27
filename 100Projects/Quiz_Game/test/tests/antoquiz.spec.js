@@ -62,6 +62,17 @@ test('Start Quiz shows question 1 with the right initial state', async ({browser
      await expect (page.locator(':text-is("2")')).toContainText('2');
      await expect (page.locator('p:has-text("Question 2 of 5")')).toContainText("Question 2 of 5"); 
      await expect (page.locator('p:has-text("Score: 0")')).toContainText("Score: 0"); 
+
+     await page.getByRole('button', { name: 'Mars' }).click();
+     await expect (page.locator('p:has-text("Question 3 of 5")')).toContainText("Question 3 of 5"); 
+     await expect (page.locator('p:has-text("Score: 1")')).toContainText("Score: 1");
+     
+     await page.getByRole('button', { name: 'Indian Ocean' }).click();
+     await expect (page.locator('p:has-text("Question 4 of 5")')).toContainText("Question 4 of 5"); 
+     await expect (page.locator('p:has-text("Score: 1")')).toContainText("Score: 1");
+
+     //getByRole('button', { name: 'JavaScript' })
+
     
     //this is where i left off just checking the Madrid text
 
