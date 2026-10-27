@@ -10,6 +10,7 @@ function App() {
 
   const [user, setUser] = useState(null);
   const [entries, setEntries] = useState([]);
+  const [weeklyEntries, setWeeklyEntries] = useState([]);
 
   const [page, setPage] = useState("login");
 
@@ -74,15 +75,14 @@ function App() {
       setError("");
 
       const data = await apiRequest("/users/me");
-      console.log("Backend response from /users/me:", data); // 👈 ADD THIS
+      console.log("Backend response from /users/me:", data);
 
-      const currentUser = data.user || data; // Handles both direct and nested formats
+      const currentUser = data.user || data;
 
       setUser(currentUser);
       setDailyTarget(currentUser.dailyCalorieTarget || 2000);
-      
 
-      await loadEntries();
+      await Promise.all([loadEntries(), loadWeeklyEntries()]);
     } catch (err) {
       console.error(err);
 
@@ -98,35 +98,45 @@ function App() {
   // --------------------------------------------------
   // Load today's calorie entries
   // --------------------------------------------------
-async function loadEntries() {
-  try {
-    const data = await apiRequest("/calories/today");
-    console.log("Backend response from /calories/today:", data);
 
-    // If the backend returned the array directly: use data
-    // If it returned { entries: [...] }: use data.entries
-    const meals = Array.isArray(data)
-      ? data
-      : Array.isArray(data?.entries)
-      ? data.entries
-      : [];
+  async function loadEntries() {
+    try {
+      const data = await apiRequest("/calories/today");
+      console.log("Backend response from /calories/today:", data);
 
-    setEntries(meals);
-  } catch (err) {
-    console.error(err);
-    setError(err.message);
+      const meals = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.entries)
+        ? data.entries
+        : [];
+
+      setEntries(meals);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
   }
-}
-  // async function loadEntries() {
-  //   try {
-  //     const data = await apiRequest("/calories/today");
 
-  //     setEntries(data.entries || []);
-  //   } catch (err) {
-  //     console.error(err);
-  //     setError(err.message);
-  //   }
-  // }
+  // --------------------------------------------------
+  // Load weekly calorie entries (past 7 days)
+  // --------------------------------------------------
+
+  async function loadWeeklyEntries() {
+    try {
+      const data = await apiRequest("/calories/week");
+      console.log("Backend response from /calories/week:", data);
+
+      const meals = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.entries)
+        ? data.entries
+        : [];
+
+      setWeeklyEntries(meals);
+    } catch (err) {
+      console.error("Error loading weekly entries:", err);
+    }
+  }
 
   // --------------------------------------------------
   // Register
@@ -189,10 +199,6 @@ async function loadEntries() {
   // --------------------------------------------------
 
   async function login(e) {
-    // eslint-disable-next-line no-debugger
-   debugger;
-
-
     e.preventDefault();
 
     setError("");
@@ -247,6 +253,7 @@ async function loadEntries() {
     setToken("");
     setUser(null);
     setEntries([]);
+    setWeeklyEntries([]);
 
     setEmail("");
     setPassword("");
@@ -282,9 +289,16 @@ async function loadEntries() {
         }),
       });
 
+      const newEntry = data.entry || data;
+
       setEntries((currentEntries) => [
         ...currentEntries,
-        data.entry,
+        newEntry,
+      ]);
+
+      setWeeklyEntries((currentWeekly) => [
+        ...currentWeekly,
+        newEntry,
       ]);
 
       setFood("");
@@ -309,6 +323,10 @@ async function loadEntries() {
 
       setEntries((currentEntries) =>
         currentEntries.filter((entry) => entry._id !== id)
+      );
+
+      setWeeklyEntries((currentWeekly) =>
+        currentWeekly.filter((entry) => entry._id !== id)
       );
     } catch (err) {
       console.error(err);
@@ -337,6 +355,7 @@ async function loadEntries() {
       });
 
       setEntries([]);
+      await loadWeeklyEntries();
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -374,11 +393,18 @@ async function loadEntries() {
   // --------------------------------------------------
 
   const totalCalories = entries.reduce(
-    (total, entry) => total + Number(entry.calories),
+    (total, entry) => total + Number(entry.calories || 0),
+    0
+  );
+
+  const totalWeeklyCalories = weeklyEntries.reduce(
+    (total, entry) => total + Number(entry.calories || 0),
     0
   );
 
   const remainingCalories = dailyTarget - totalCalories;
+
+  const weeklyTarget = dailyTarget * 7;
 
   const progress =
     dailyTarget > 0
@@ -586,7 +612,7 @@ async function loadEntries() {
 
           <div className="calorie-total">
 
-            <p>Calories Consumed</p>
+            <p>Calories Consumed (Today)</p>
 
             <h2>{totalCalories}</h2>
 
@@ -594,13 +620,29 @@ async function loadEntries() {
 
           <div className="remaining">
 
-            <p>Calories Remaining</p>
+            <p>Calories Remaining (Today)</p>
 
             <h2>
               {remainingCalories > 0
                 ? remainingCalories
                 : 0}
             </h2>
+
+          </div>
+
+          <div className="calorie-weekly">
+
+            <p>Weekly Calories (7 Days)</p>
+
+            <h2 style={{ color: "#7c3aed" }}>{totalWeeklyCalories}</h2>
+
+          </div>
+
+          <div className="weekly-target">
+
+            <p>Weekly Target (7 Days)</p>
+
+            <h2 style={{ color: "#0284c7" }}>{weeklyTarget}</h2>
 
           </div>
 

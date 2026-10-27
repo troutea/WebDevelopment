@@ -76,6 +76,38 @@ router.get(
 
 
 // ============================
+// GET THIS WEEK'S ENTRIES (PAST 7 DAYS)
+// ============================
+
+router.get(
+  "/week",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const startOfWeek = new Date();
+      startOfWeek.setDate(startOfWeek.getDate() - 6);
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const entries = await CalorieEntry.find({
+        user: req.user.id,
+        date: {
+          $gte: startOfWeek
+        }
+      }).sort({
+        createdAt: -1
+      });
+
+      res.json(entries);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    }
+  }
+);
+
+
+// ============================
 // ADD CALORIE ENTRY
 // ============================
 
@@ -265,5 +297,35 @@ router.delete(
   }
 );
 
+
+// ============================
+// GET THIS WEEK'S ENTRIES (PAST 7 DAYS)
+// ============================
+router.get(
+  "/week",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const startOfWeek = new Date();
+      startOfWeek.setDate(startOfWeek.getDate() - 6);
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const entries = await CalorieEntry.find({
+        user: req.user.id,
+        date: {
+          $gte: startOfWeek
+        }
+      }).sort({
+        createdAt: -1
+      });
+
+      res.json(entries);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    }
+  }
+);
 
 module.exports = router;
