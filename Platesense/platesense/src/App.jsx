@@ -464,10 +464,7 @@ function App() {
 
           <header>
             <h1>🍽️ Platesense</h1>
-
-            <p>
-              Track your daily calorie intake
-            </p>
+            <p>Track your daily calorie intake</p>
           </header>
 
           <div className="auth-card">
@@ -603,16 +600,14 @@ function App() {
   return (
     <div className="app">
 
-      <div className="container">
+      <div className="container dashboard-container">
 
-        <header>
+        {/* Dashboard Header */}
+        <header className="dashboard-header">
 
           <div>
             <h1>🍽️ Platesense</h1>
-
-            <p>
-              Welcome, {user.name}
-            </p>
+            <p>Welcome, {user.name}</p>
           </div>
 
           <button
@@ -630,287 +625,227 @@ function App() {
           </div>
         )}
 
-        {/* Daily Target */}
-
-        <div className="target-card">
-
-          <label>
-            Daily Calorie Target
-          </label>
-
-          <input
-            type="number"
-            value={dailyTarget}
-            onChange={(e) =>
-              updateTarget(e.target.value)
-            }
-          />
-
-        </div>
-
-        {/* Calories Overview */}
-
-        <div className="overview">
+        {/* Top Overview: 4 Stat Cards */}
+        <div className="overview overview-grid">
 
           <div className="calorie-total">
-
             <p>Calories Consumed (Today)</p>
-
             <h2>{totalCalories}</h2>
-
           </div>
 
           <div className="remaining">
-
             <p>Calories Remaining (Today)</p>
-
             <h2>
               {remainingCalories > 0
                 ? remainingCalories
                 : 0}
             </h2>
-
           </div>
 
           <div className="calorie-weekly">
-
             <p>Weekly Calories (7 Days)</p>
-
             <h2 style={{ color: "#7c3aed" }}>{totalWeeklyCalories}</h2>
-
           </div>
 
           <div className="weekly-target">
-
             <p>Weekly Target (7 Days)</p>
-
             <h2 style={{ color: "#0284c7" }}>{weeklyTarget}</h2>
-
           </div>
 
         </div>
 
-        {/* Progress Bar */}
-
+        {/* Daily Progress Bar */}
         <div className="progress-section">
 
           <div className="progress-info">
-
-            <span>
-              Daily Progress
-            </span>
-
-            <span>
-              {Math.round(progress)}%
-            </span>
-
+            <span>Daily Progress</span>
+            <span>{Math.round(progress)}%</span>
           </div>
 
           <div className="progress-bar">
-
             <div
               className="progress-fill"
               style={{
                 width: `${progress}%`,
               }}
             />
-
           </div>
 
         </div>
 
-        {/* Garmin Watch Integration */}
-        <GarminCard
-          apiRequest={apiRequest}
-          totalCaloriesEaten={totalCalories}
-        />
+        {/* 2-Column Dashboard Grid */}
+        <div className="dashboard-grid">
 
-        {/* View Calories by Day Dropdown */}
+          {/* Left Column: Food Intake & Logging */}
+          <div className="dashboard-col">
 
-        <div className="target-card">
-
-          <label>
-            View Calories by Day
-          </label>
-
-          <select
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            style={{
-              padding: "12px",
-              borderRadius: "8px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              backgroundColor: "#fff",
-              cursor: "pointer",
-            }}
-          >
-            {pastDays.map((day) => {
-              const caloriesForDay = dailyCaloriesMap[day.dateKey] || 0;
-              return (
-                <option key={day.dateKey} value={day.dateKey}>
-                  {day.label} — {caloriesForDay} cal
-                </option>
-              );
-            })}
-          </select>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "12px 14px",
-              backgroundColor: "#f8fafc",
-              borderRadius: "8px",
-              marginTop: "4px",
-            }}
-          >
-            <div>
-              <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
-                {pastDays.find((d) => d.dateKey === selectedDate)?.label || selectedDate}
-              </p>
-              <h3 style={{ margin: "4px 0 0", color: "#2563eb", fontSize: "22px" }}>
-                {selectedDayCalories}{" "}
-                <span style={{ fontSize: "14px", color: "#64748b", fontWeight: "normal" }}>
-                  / {dailyTarget} cal target
-                </span>
-              </h3>
+            {/* Daily Target */}
+            <div className="target-card">
+              <label>Daily Calorie Target</label>
+              <input
+                type="number"
+                value={dailyTarget}
+                onChange={(e) => updateTarget(e.target.value)}
+              />
             </div>
 
-            <span
-              style={{
-                padding: "6px 12px",
-                borderRadius: "20px",
-                fontSize: "13px",
-                fontWeight: "bold",
-                backgroundColor:
-                  selectedDayCalories > dailyTarget ? "#fee2e2" : "#dcfce7",
-                color:
-                  selectedDayCalories > dailyTarget ? "#dc2626" : "#16a34a",
-              }}
-            >
-              {selectedDayCalories > dailyTarget
-                ? `+${selectedDayCalories - dailyTarget} over`
-                : `${selectedDayRemaining} left`}
-            </span>
+            {/* Add Calories */}
+            <div className="add-card">
+              <h3>Add Calories</h3>
+
+              <input
+                type="text"
+                placeholder="Food name"
+                value={food}
+                onChange={(e) => setFood(e.target.value)}
+              />
+
+              <select
+                value={meal}
+                onChange={(e) => setMeal(e.target.value)}
+              >
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Snacks</option>
+              </select>
+
+              <input
+                type="number"
+                placeholder="Enter calories"
+                value={calories}
+                onChange={(e) => setCalories(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    addEntry();
+                  }
+                }}
+              />
+
+              <button
+                className="add-button"
+                onClick={addEntry}
+              >
+                Add Entry
+              </button>
+            </div>
+
+            {/* Today's Meals */}
+            <div className="entries-card">
+              <h3>Today's Meals</h3>
+
+              {entries.length === 0 ? (
+                <p className="empty-message">No meals added yet.</p>
+              ) : (
+                <div className="entries-list">
+                  {entries.map((entry) => (
+                    <div className="entry" key={entry._id}>
+                      <div>
+                        <strong>{entry.food}</strong>
+                        <p>
+                          {entry.meal} — {entry.calories} calories
+                        </p>
+                      </div>
+
+                      <button
+                        className="delete-button"
+                        onClick={() => deleteEntry(entry._id)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Reset Today's Calories */}
+            <button className="reset-button" onClick={resetDay}>
+              Reset Today's Calories
+            </button>
+
           </div>
 
-        </div>
+          {/* Right Column: Activity, Wearables & History */}
+          <div className="dashboard-col">
 
-        {/* Add Calories */}
+            {/* Garmin Watch Integration */}
+            <GarminCard
+              apiRequest={apiRequest}
+              totalCaloriesEaten={totalCalories}
+            />
 
-        <div className="add-card">
+            {/* View Calories by Day Dropdown */}
+            <div className="target-card">
+              <label>View Calories by Day</label>
 
-          <h3>Add Calories</h3>
+              <select
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={{
+                  padding: "12px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  fontSize: "16px",
+                  backgroundColor: "#fff",
+                  cursor: "pointer",
+                }}
+              >
+                {pastDays.map((day) => {
+                  const caloriesForDay = dailyCaloriesMap[day.dateKey] || 0;
+                  return (
+                    <option key={day.dateKey} value={day.dateKey}>
+                      {day.label} — {caloriesForDay} cal
+                    </option>
+                  );
+                })}
+              </select>
 
-          <input
-            type="text"
-            placeholder="Food name"
-            value={food}
-            onChange={(e) =>
-              setFood(e.target.value)
-            }
-          />
-
-          <select
-            value={meal}
-            onChange={(e) =>
-              setMeal(e.target.value)
-            }
-          >
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
-            <option>Snacks</option>
-          </select>
-
-          <input
-            type="number"
-            placeholder="Enter calories"
-            value={calories}
-            onChange={(e) =>
-              setCalories(e.target.value)
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                addEntry();
-              }
-            }}
-          />
-
-          <button
-            className="add-button"
-            onClick={addEntry}
-          >
-            Add Entry
-          </button>
-
-        </div>
-
-        {/* Entries */}
-
-        <div className="entries-card">
-
-          <h3>Today's Meals</h3>
-
-          {entries.length === 0 ? (
-
-            <p className="empty-message">
-              No meals added yet.
-            </p>
-
-          ) : (
-
-            <div className="entries-list">
-
-              {entries.map((entry) => (
-
-                <div
-                  className="entry"
-                  key={entry._id}
-                >
-
-                  <div>
-
-                    <strong>
-                      {entry.food}
-                    </strong>
-
-                    <p>
-                      {entry.meal} —{" "}
-                      {entry.calories} calories
-                    </p>
-
-                  </div>
-
-                  <button
-                    className="delete-button"
-                    onClick={() =>
-                      deleteEntry(entry._id)
-                    }
-                  >
-                    ✕
-                  </button>
-
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "12px 14px",
+                  backgroundColor: "#f8fafc",
+                  borderRadius: "8px",
+                  marginTop: "4px",
+                }}
+              >
+                <div>
+                  <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
+                    {pastDays.find((d) => d.dateKey === selectedDate)?.label || selectedDate}
+                  </p>
+                  <h3 style={{ margin: "4px 0 0", color: "#2563eb", fontSize: "22px" }}>
+                    {selectedDayCalories}{" "}
+                    <span style={{ fontSize: "14px", color: "#64748b", fontWeight: "normal" }}>
+                      / {dailyTarget} cal target
+                    </span>
+                  </h3>
                 </div>
 
-              ))}
-
+                <span
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: "20px",
+                    fontSize: "13px",
+                    fontWeight: "bold",
+                    backgroundColor:
+                      selectedDayCalories > dailyTarget ? "#fee2e2" : "#dcfce7",
+                    color:
+                      selectedDayCalories > dailyTarget ? "#dc2626" : "#16a34a",
+                  }}
+                >
+                  {selectedDayCalories > dailyTarget
+                    ? `+${selectedDayCalories - dailyTarget} over`
+                    : `${selectedDayRemaining} left`}
+                </span>
+              </div>
             </div>
 
-          )}
+          </div>
 
         </div>
-
-        {/* Reset */}
-
-        <button
-          className="reset-button"
-          onClick={resetDay}
-        >
-          Reset Today's Calories
-        </button>
 
       </div>
 
