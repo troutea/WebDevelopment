@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "C:/Local/WebDevelopment/Platesense/style.css";
 import GarminCard from "./components/GarminCard";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = `http://${window.location.hostname}:5000/api`;
 
 function formatLocalDate(dateInput) {
   const d = new Date(dateInput);
